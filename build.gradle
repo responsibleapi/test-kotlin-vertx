@@ -4,18 +4,19 @@ plugins {
 }
 
 group = 'responsible'
-version = '1.0.0'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(
+    api(
         "org.openapi4j:openapi-operation-validator:1.0.7",
     )
-    implementation(
-        platform("io.vertx:vertx-stack-depchain:4.3.7"),
+
+    implementation(platform("io.vertx:vertx-stack-depchain:4.3.7"))
+    api(
         "io.vertx:vertx-lang-kotlin-coroutines",
         "io.vertx:vertx-web-client",
         'io.vertx:vertx-web-openapi',
