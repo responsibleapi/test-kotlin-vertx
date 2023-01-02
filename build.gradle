@@ -1,0 +1,58 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0'
+    id "com.github.ben-manes.versions" version "0.44.0"
+}
+
+group = 'responsible'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(
+        "org.openapi4j:openapi-operation-validator:1.0.7",
+    )
+    implementation(
+        platform("io.vertx:vertx-stack-depchain:4.3.7"),
+        "io.vertx:vertx-lang-kotlin-coroutines",
+        "io.vertx:vertx-web-client",
+        'io.vertx:vertx-web-openapi',
+    )
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile).configureEach {
+    kotlinOptions {
+        allWarningsAsErrors = true
+    }
+}
+
+dependencyUpdates {
+    checkConstraints = true
+
+    rejectVersionIf {
+        final version = it.candidate.version.toLowerCase()
+
+        [
+            "m", // milestone
+            "alpha",
+            "beta",
+            "eap",
+            "rc",
+            "cr",
+        ].any { version.contains(it) }
+    }
+}
