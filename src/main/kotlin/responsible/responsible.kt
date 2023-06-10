@@ -96,12 +96,14 @@ class Responsible(
         require(status in 100..599) { status }
 
         val builtReq = client.request(req.method, req)
-
+        
         val res = when {
             json != null ->
+                // TODO fail if method is not POST, PUT, PATCH
                 builtReq.sendJson(json)
 
             text != null ->
+                // TODO fail if method is not POST, PUT, PATCH
                 builtReq.sendBuffer(Buffer.buffer(text))
 
             else ->
