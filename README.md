@@ -10,16 +10,16 @@ In `build.gradle`:
 
 ```groovy
 repositories {
-    mavenCentral()
-
-    // ResponsibleAPI test-kotlin-vertx
-    maven { url 'https://jitpack.io' }
+    maven {
+        url "https://jitpack.io"
+        content {
+            includeGroup "com.github.responsibleapi"
+        }
+    }
 }
 
 dependencies {
-    testImplementation(
-        'com.github.responsibleapi:test-kotlin-vertx:X.X.X'
-    )
+    testImplementation "com.github.responsibleapi:test-kotlin-vertx:X.X.X"
 }
 ```
 
