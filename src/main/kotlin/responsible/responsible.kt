@@ -9,7 +9,7 @@ import io.vertx.ext.web.client.HttpRequest
 import io.vertx.ext.web.client.HttpResponse
 import io.vertx.ext.web.client.WebClient
 import io.vertx.ext.web.openapi.Operation
-import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.coAwait
 import org.openapi4j.core.model.v3.OAI3Context
 import org.openapi4j.operation.validator.model.Request
 import org.openapi4j.operation.validator.model.impl.Body
@@ -108,7 +108,7 @@ class Responsible(
 
             else ->
                 builtReq.send()
-        }.await()
+        }.coAwait()
 
         check(res.statusCode() == status) {
             "expected status $status, got ${res.statusCode()}. ${res.bodyAsString()}"
