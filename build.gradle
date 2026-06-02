@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.25'
-    id "com.github.ben-manes.versions" version "0.51.0"
+    id 'org.jetbrains.kotlin.jvm' version '2.3.21'
+    id "com.github.ben-manes.versions" version "0.54.0"
     id 'maven-publish'
 }
 
@@ -16,11 +16,11 @@ dependencies {
         "org.openapi4j:openapi-operation-validator:1.0.7",
     )
 
-    implementation(platform("io.vertx:vertx-stack-depchain:4.5.10"))
+    implementation(platform("io.vertx:vertx-stack-depchain:5.1.1"))
     api(
         "io.vertx:vertx-lang-kotlin-coroutines",
         "io.vertx:vertx-web-client",
-        'io.vertx:vertx-web-openapi',
+        'io.vertx:vertx-openapi',
     )
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
@@ -31,14 +31,14 @@ test {
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile).configureEach {
-    kotlinOptions {
-        allWarningsAsErrors = true
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile).configureEach {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+        allWarningsAsErrors.set(true)
     }
 }
 

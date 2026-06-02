@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.client.HttpRequest
 import io.vertx.ext.web.client.HttpResponse
 import io.vertx.ext.web.client.WebClient
-import io.vertx.ext.web.openapi.Operation
 import io.vertx.kotlin.coroutines.coAwait
+import io.vertx.openapi.contract.Operation
 import org.openapi4j.core.model.v3.OAI3Context
 import org.openapi4j.operation.validator.model.Request
 import org.openapi4j.operation.validator.model.impl.Body
@@ -17,7 +17,7 @@ import org.openapi4j.operation.validator.model.impl.DefaultRequest
 import org.openapi4j.operation.validator.model.impl.DefaultResponse
 import org.openapi4j.operation.validator.validation.RequestValidator
 import org.openapi4j.parser.model.v3.OpenApi3
-import java.net.URL
+import java.net.URI
 import java.net.URLEncoder
 
 private fun List<Map.Entry<String, String>>.toMap(): Map<String, MutableList<String>> {
@@ -43,7 +43,7 @@ private fun HttpResponse<*>.toDefault(): DefaultResponse =
 private fun openAPI3(doc: JsonObject): OpenApi3 =
     Json.CODEC.run {
         fromValue(doc, OpenApi3::class.java).apply {
-            context = OAI3Context(URL("http://localhost"), fromValue(doc, JsonNode::class.java))
+            context = OAI3Context(URI("http://localhost").toURL(), fromValue(doc, JsonNode::class.java))
         }
     }
 
@@ -95,7 +95,7 @@ class Responsible(
     ): HttpResponse<Buffer> {
         require(status in 100..599) { status }
 
-        val builtReq = client.request(req.method, req)
+        val builtReq = client.request(req)
         
         val res = when {
             json != null ->
